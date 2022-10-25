@@ -10,7 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.student.model.Course;
 import com.student.model.Student;
 import com.student.service.StudentService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
+/**
+ *
+ * @author pinja
+ */
 @RestController
 public class StudentController {
 
@@ -22,7 +28,7 @@ public class StudentController {
 		return studentService.retrieveCourses(studentId);
 	}
         
-        @GetMapping("/students/")
+        @GetMapping("/students")
 	public List<Student> retrieveStudents() {
 		return studentService.retrieveStudents();
 	}
@@ -31,4 +37,10 @@ public class StudentController {
 	public Student retrieveStudent(@PathVariable String studentId) {
 		return studentService.retrieveStudent(studentId);
 	}
+        
+        @PostMapping("/addStudent")
+        public String addStudent(@RequestBody Student student){
+            studentService.addStudent(student);
+        return "Student added";
+    }
 }

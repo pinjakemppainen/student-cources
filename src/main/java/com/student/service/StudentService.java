@@ -15,22 +15,13 @@ public class StudentService {
 
     static {
         // Initialize Data
-        Course course1 = new Course("Course1", "Spring", "10 Steps",
-                Arrays.asList("Learn Maven", "Import Project", "First Example",
-                        "Second Example"));
-        Course course2 = new Course("Course2", "Spring MVC", "10 Examples",
-                Arrays.asList("Learn Maven", "Import Project", "First Example",
-                        "Second Example"));
+        Course course1 = new Course("Kurssi1", "Java", "Javan perusteet");
+        Course course2 = new Course("Kurssi2", "Web ohjelmointi", "www jatkokurssi");
 
-        Student ranga = new Student("Student1", "Ranga Karanam",
-                "Hiker, Programmer and Architect", new ArrayList<>(
-                Arrays.asList(course1, course2)));
-        
-        Student pinja = new Student("Student2", "Pinja Kemppainen",
-                "Student", new ArrayList<>(
+        Student pinja = new Student("id1", "Pinja Kemppainen",
+                "Opiskelija", new ArrayList<>(
                 Arrays.asList(course1, course2)));
 
-        students.add(ranga);
         students.add(pinja);
     }
 
@@ -51,5 +42,12 @@ public class StudentService {
         
         public List<Student> retrieveStudents() {
 		return students;
+	}
+        
+        public void addStudent(Student student) {
+            
+            System.out.println("Luotu oppilas: " + student.getName());
+            students.add(student);
+
 	}
 }
