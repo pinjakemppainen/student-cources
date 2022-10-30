@@ -6,6 +6,10 @@ import java.util.List;
 
 import com.student.model.Course;
 import com.student.model.Student;
+import java.io.FileWriter;
+import java.io.IOException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -48,6 +52,8 @@ public class StudentService {
             
             System.out.println("Luotu oppilas: " + student.getName());
             students.add(student);
+            
+            
 
 	}
 }

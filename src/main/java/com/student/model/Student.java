@@ -10,7 +10,6 @@ public class Student {
 
 	public Student(String id, String name, String description,
 			List<Course> courses) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
