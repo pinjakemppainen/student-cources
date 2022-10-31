@@ -1,0 +1,1 @@
+[{"student":{"courses":[{"course":{"name":"Testikurssi","description":"Testausta","id":"c1"}},{"course":{"name":"Java-kurssi","description":"Opi Javaa","id":"c2"}}],"name":"Pinja","description":"kemppainen","id":"id1"}},{"student":{"courses":[{"course":{"name":"Java-kurssi","description":"Opi Javaa","id":"c2"}}],"name":"Testi","description":"Kemppainen","id":"id2"}}]

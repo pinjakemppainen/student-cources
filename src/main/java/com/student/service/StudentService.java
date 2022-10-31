@@ -1,5 +1,6 @@
 package com.student.service;
 
+import com.student.model.Course;
 import java.util.ArrayList;
 //import java.util.Arrays;
 import java.util.List;
@@ -52,7 +53,8 @@ public class StudentService {
         }
         
     }
-     private static void parseStudentObject(JSONObject jstudetn) 
+    
+    private static void parseStudentObject(JSONObject jstudent) 
     {
         JSONObject studentObject = (JSONObject) jstudent.get("student");
          
@@ -60,9 +62,30 @@ public class StudentService {
         student.setId((String)studentObject.get("id"));
         student.setName((String)studentObject.get("name"));
         student.setDescription((String)studentObject.get("description"));
+        
+        List<Course> studentCourses = new ArrayList();
+        JSONArray courseList = (JSONArray) studentObject.get("courses");
+        courseList.forEach( cs -> studentCourses.add(parseCourseObject( (JSONObject) cs )) );
+        
+        student.setCourses(studentCourses);
+        
         students.add(student);
     }
-     public Student retrieveStudent(String studentId) {
+    
+    private static Course parseCourseObject(JSONObject jcourse) 
+    {
+        JSONObject courseObject = (JSONObject) jcourse.get("course");
+         
+        Course course = new Course();
+        course.setId((String)courseObject.get("id"));
+        course.setName((String)courseObject.get("name"));
+        course.setDescription((String)courseObject.get("description"));
+        
+        return course;
+    }
+    
+    public Student retrieveStudent(String studentId) {
+        
             for (Student student : students) {
                     if (student.getId().equals(studentId)) {
                             return student;
@@ -70,25 +93,46 @@ public class StudentService {
             }
             return null;
     }
-     public List<Student> retrieveStudents() {
+    
+    public List<Student> retrieveStudents() {
             return students;
     }
-      public void addStudent(Student student) {
+    
+     public void addStudent(Student student) {
 
         System.out.println("Luotu oppilas: " + student.getName());
         students.add(student);
         
         JSONArray studentList = new JSONArray();
         
-        for(Student c : students)
+        for(Student s : students)
         {
             JSONObject studentDetails = new JSONObject();
-            studentDetails.put("id", c.getId());
-            studentDetails.put("name", c.getName());
-            studentDetails.put("description", c.getDescription());
+            studentDetails.put("id", s.getId());
+            studentDetails.put("name", s.getName());
+            studentDetails.put("description", s.getDescription());
 
+            if(s.getCourses() != null && s.getCourses().size() > 0)
+            { 
+                JSONArray courseList = new JSONArray();
+                for(Course c : s.getCourses())
+                {
+                    JSONObject courseDetails = new JSONObject();
+                    courseDetails.put("id", c.getId());
+                    courseDetails.put("name", c.getName());
+                    courseDetails.put("description", c.getDescription());
+
+                    JSONObject courseObject = new JSONObject(); 
+                    courseObject.put("course", courseDetails); 
+                    courseList.add(courseObject);
+                }
+
+                studentDetails.put("courses", courseList);
+            }
+            
             JSONObject studentObject = new JSONObject(); 
             studentObject.put("student", studentDetails); 
+            
             studentList.add(studentObject);
         }
         //Write JSON file
@@ -97,12 +141,23 @@ public class StudentService {
             file.write(studentList.toJSONString()); 
             file.flush(); 
 
-        } catch (IOException e) 
+        } 
+        catch (IOException e) 
         {
             e.printStackTrace();
         }
+    }
+      
+    public List<Course> retrieveCourses(String studentId)
+    {
+        for(Student s : students)
+        {
+            if(s.getId().equals(studentId))
+            {
+                return s.getCourses();
+            }
+        }
 
-
-
+        return null;
     }
 }
